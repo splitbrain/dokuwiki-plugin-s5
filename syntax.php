@@ -50,7 +50,7 @@ class syntax_plugin_s5 extends DokuWiki_Syntax_Plugin {
     /**
      * Handle the match
      */
-    function handle($match, $state, $pos, &$handler){
+    function handle($match, $state, $pos, Doku_Handler $handler){
        if($match!='~~SLIDESHOW~~') return array(trim(substr($match,11,-2)));
        return array();
     }
@@ -58,7 +58,7 @@ class syntax_plugin_s5 extends DokuWiki_Syntax_Plugin {
     /**
      * Create output
      */
-    function render($format, &$renderer, $data) {
+    function render($format, Doku_Renderer $renderer, $data) {
         global $ID;
         if($format != 'xhtml') return false;
 
