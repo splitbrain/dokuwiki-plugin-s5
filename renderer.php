@@ -18,6 +18,7 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
     var $slideopen = false;
     var $base='';
     var $tpl='';
+    var $lastH2='';
 
     /**
      * the format we produce
@@ -121,7 +122,8 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
     /**
      * This is what creates new slides
      *
-     * A new slide is started for each H2 header
+     * A new slide is started for each Hx header,
+     * where x <= configuration parameter "maxHeaderLevelForNewSlide"
      */
     function header($text, $level, $pos) {
         if($level == 1){
@@ -133,12 +135,19 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
             }
         }
 
-        if($level == 2){
+        if($level <= $this->getConf('maxHeaderLevelForNewSlide')){
             if($this->slideopen){
                 $this->doc .= '</div>'.DOKU_LF; //close previous slide
             }
             $this->doc .= '<div class="slide">'.DOKU_LF;
             $this->slideopen = true;
+
+            if ($level == 2) {
+                $this->lastH2 = $text;
+            } else {
+                $level = 2;
+                $text = $this->lastH2 . " - " . $text;
+            }
         }
         $this->doc .= '<h'.($level-1).'>';
         $this->doc .= $this->_xmlEntities($text);
@@ -149,7 +158,7 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
      * Top-Level Sections are slides
      */
     function section_open($level) {
-        if($level < 3){
+        if($level <= $this->getConf('maxHeaderLevelForNewSlide')){
             $this->doc .= '<div class="slidecontent">'.DOKU_LF;
         }else{
             $this->doc .= '<div>'.DOKU_LF;
