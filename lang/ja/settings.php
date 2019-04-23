@@ -7,3 +7,4 @@
  */
 
 $lang['template'] = 'スライドショー用のテンプレート';
+$lang['maxHeaderLevelForNewSlide'] = '新しいスライドヘッダーレベル';
