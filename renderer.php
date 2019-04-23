@@ -18,7 +18,6 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
     var $slideopen = false;
     var $base='';
     var $tpl='';
-    var $lastH2='';
 
     /**
      * the format we produce
@@ -141,13 +140,6 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
             }
             $this->doc .= '<div class="slide">'.DOKU_LF;
             $this->slideopen = true;
-
-            if ($level == 2) {
-                $this->lastH2 = $text;
-            } else {
-                $level = 2;
-                $text = $this->lastH2 . " - " . $text;
-            }
         }
         $this->doc .= '<h'.($level-1).'>';
         $this->doc .= $this->_xmlEntities($text);
