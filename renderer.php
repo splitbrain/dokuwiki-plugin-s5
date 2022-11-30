@@ -123,7 +123,8 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
      *
      * A new slide is started for each H2 header
      */
-    function header($text, $level, $pos) {
+
+    public function header($text, $level, $pos, $returnonly = false) {
         if($level == 1){
             if(!$this->slideopen){
                 $this->s5_init($text); // this is the first slide
